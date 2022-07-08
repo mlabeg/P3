@@ -1,129 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="15.0.0">
-  <zoom_level>10</zoom_level>
+  <zoom_level>7</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>490</x>
-      <y>20</y>
-      <w>100</w>
-      <h>80</h>
+      <x>140</x>
+      <y>112</y>
+      <w>112</w>
+      <h>70</h>
     </coordinates>
     <panel_attributes>uzytkownik
 --
 - id
 - imie
 - nazwisko
-
-
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>290</x>
-      <y>20</y>
-      <w>100</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>Wypożyczalnia</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>490</x>
-      <y>140</y>
-      <w>100</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>wypozyczenie
 --
-- dodaj()
-- drukuj()
+// dodaj_wypozyczenie()
+
+
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>520</x>
-      <y>90</y>
-      <w>30</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;50.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>380</x>
-      <y>20</y>
-      <w>120</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;100.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>380</x>
-      <y>20</y>
-      <w>130</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>110.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>170</x>
-      <y>20</y>
-      <w>140</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>120.0;10.0;10.0;10.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>170</x>
-      <y>20</y>
-      <w>130</w>
-      <h>30</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;110.0;10.0</additional_attributes>
-  </element>
-  <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>80</x>
-      <y>20</y>
-      <w>100</w>
-      <h>30</h>
+      <x>308</x>
+      <y>224</y>
+      <w>91</w>
+      <h>63</h>
     </coordinates>
-    <panel_attributes>zasoby</panel_attributes>
+    <panel_attributes>zasoby
+--
+czy_wypozyczony
+--
+opis()
+~zasoby()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>20</x>
-      <y>90</y>
-      <w>100</w>
-      <h>60</h>
+      <x>217</x>
+      <y>336</y>
+      <w>70</w>
+      <h>84</h>
     </coordinates>
     <panel_attributes>audiobook
 --
 id
 autor 
-dlugosc
+//tytul
+--
+opis()
+audiobook()
 
 </panel_attributes>
     <additional_attributes/>
@@ -131,66 +60,156 @@ dlugosc
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>170</x>
-      <y>90</y>
-      <w>100</w>
-      <h>80</h>
+      <x>441</x>
+      <y>322</y>
+      <w>70</w>
+      <h>84</h>
     </coordinates>
     <panel_attributes>film
 --
 id
 rezyser
-tytul</panel_attributes>
+tytul
+--
+opis()
+film()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>70</x>
-      <y>190</y>
-      <w>170</w>
-      <h>80</h>
+      <x>308</x>
+      <y>385</y>
+      <w>119</w>
+      <h>98</h>
     </coordinates>
     <panel_attributes>ksiazka
 --
 id
-autora
+autor
 tytul
-ilosc stron
+//ilosc stron
+--
+opis()
+ksiazka()
 </panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>120</x>
-      <y>40</y>
-      <w>40</w>
-      <h>170</h>
+      <x>336</x>
+      <y>280</y>
+      <w>35</w>
+      <h>119</h>
     </coordinates>
     <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;20.0;150.0</additional_attributes>
+    <additional_attributes>10.0;10.0;30.0;150.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>350</x>
+      <y>280</y>
+      <w>133</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;170.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>238</x>
+      <y>280</y>
+      <w>105</w>
+      <h>70</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>130.0;10.0;10.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>105</x>
+      <y>294</y>
+      <w>70</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>wypozyczenie
+--
+id
+--
+dodaj()
+drukuj()
+</panel_attributes>
+    <additional_attributes/>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
       <x>140</x>
-      <y>40</y>
-      <w>90</w>
+      <y>175</y>
+      <w>63</w>
       <h>70</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;70.0;50.0</additional_attributes>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>70.0;10.0;10.0;80.0</additional_attributes>
   </element>
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>50</x>
-      <y>40</y>
-      <w>80</w>
-      <h>70</h>
+      <x>203</x>
+      <y>259</y>
+      <w>119</w>
+      <h>28</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>60.0;10.0;10.0;50.0</additional_attributes>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>150.0;20.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>133</x>
+      <y>287</y>
+      <w>21</w>
+      <h>21</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>133</x>
+      <y>287</y>
+      <w>21</w>
+      <h>28</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;20.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLUseCase</id>
+    <coordinates>
+      <x>112</x>
+      <y>91</y>
+      <w>175</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>TO_DO
+
+
+
+
+
+
+
+
+
+
+
+</panel_attributes>
+    <additional_attributes/>
   </element>
 </diagram>
