@@ -30,22 +30,58 @@ class film :public Pozycja {
 	string rezyser;
 	string tytul;
 public:
-	string opis() { return "Film '" + tytul + "' rezyser: "; }
-	film(int id, string rezyser, string tytul) {}
+	string opis() { return "Film '" + tytul + "', rezyser: " +rezyser; }
+	film(int id, string rezyser, string tytul):id(id),rezyser(rezyser),tytul(tytul) {}
+};
+class Uzytkownik {
+	int id;
+	string imie;
+	string nazwisko;
+public:
+	string dane() { return "Imie: " + imie + " nazwisko: " + nazwisko; }
+	Uzytkownik(int id, string imie, string nazwisko):id(id), imie(imie),nazwisko(nazwisko){}
+};
+class Uzytkownicy {
+	vector<Uzytkownik*> uzytkownicy;
+public:
+	void dodaj() {
+		uzytkownicy.push_back(new Uzytkownik(1, "Jan", "Nowak"));
+	}
+};
+class Wypozyczenie {
+	vector<Pozycja*> wypozyczenie;
+	Uzytkownik* wypozyczajacy=nullptr;
+public:
+	void dodaj(Pozycja* pozycja) {
+		wypozyczenie.push_back(pozycja);
+	}
+	void kto_wypozycza(Uzytkownik USER) {
+		wypozyczajacy = &USER;
+	}
 };
 class Biblioteka {
 	vector<Pozycja*> zasoby;
 public:
-	Pozycja* dodaj(Pozycja* pozycja) {
+	void dodaj(Pozycja* pozycja) {
 		zasoby.push_back(pozycja); 
 	}
 	void pokaz_zasoby() {
 		int id = 1;
-		for (auto &p:zasoby) {
-			cout << id << p;
+		for (auto p:zasoby) {
+			cout << id++<<". " << p->opis() << endl;
 		}
 	}
+	void wypozyczenie(Pozycja* pozycja) {
+		Wypozyczenie wyp1;
+		wyp1.dodaj(pozycja);
+
+	}
 };
+
+
+//klasa USER
+// 
+// 
 //class zasoby_biblioteki {
 //	vector<pair<Pozycja*,int>> zasoby;
 //public:
@@ -120,33 +156,7 @@ int main() {
 	adbk.opis();
 
 	publiczna.pokaz_zasoby();
-/*	Magazyn magazyn;
-	magazyn.dodaj(new Dysk(100, 256), 25);
-	magazyn.dodaj(new Dysk(100, 512), 30);
-	magazyn.dodaj(new Monitor(200, 22), 15);
-	magazyn.dodaj(new pamiec_RAM(300, 4), 4);
-	magazyn.pokaz();
-	Zamowienie zamowienie;
-	cout << endl << endl << "Tworzenie zamowienia\nWybierz produkt i jego ilosc (lub wpisz z, aby zakonczyc): ";
-	int id, ile;
-	float wartoscCalegoZamowienia = 0;
-	while (cin >> id >> ile) {
-		Produkt*pobrany_produkt = nullptr;
-		pobrany_produkt = magazyn.pobierz(id, ile);
-		if (pobrany_produkt) {
-			cout << "Pobrany produkt: " << pobrany_produkt->opis()<<", ilosc: "<<ile<<endl; //wywolanie polimorficzne
-			cout << "Wartoc pobranej pozycji: " << to_string(ile * pobrany_produkt->podaj_cene()) << " zl";
-			wartoscCalegoZamowienia += ile * pobrany_produkt->podaj_cene();
-			zamowienie.dodaj(pobrany_produkt, ile);
-		}
-		else cout << " - nie mozna dodac do zamowienia";
+	publiczna.wypozyczenie(&film(4, "Tarantino", "PRwH"));
 
-		cout << endl << "Wybierz nastepny produkt i jego ilosc (lub wpisz z, aby zakonczyc): ";
-	}
-	
-	zamowienie.drukuj();
-	cout << endl << "Wartosc calego zamowienia: " << to_string(wartoscCalegoZamowienia);
-	magazyn.pokaz();
-	*/
 	return 0;
 }
