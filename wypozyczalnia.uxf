@@ -14,8 +14,6 @@
 - id
 - imie
 - nazwisko
---
-// dodaj_wypozyczenie()
 
 
 </panel_attributes>
@@ -29,12 +27,9 @@
       <w>91</w>
       <h>63</h>
     </coordinates>
-    <panel_attributes>zasoby
+    <panel_attributes>Pozycja
 --
-czy_wypozyczony
---
-opis()
-~zasoby()</panel_attributes>
+opis()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
@@ -129,23 +124,6 @@ ksiazka()
     <additional_attributes>130.0;10.0;10.0;80.0</additional_attributes>
   </element>
   <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>105</x>
-      <y>294</y>
-      <w>70</w>
-      <h>63</h>
-    </coordinates>
-    <panel_attributes>wypozyczenie
---
-id
---
-dodaj()
-drukuj()
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
     <id>Relation</id>
     <coordinates>
       <x>140</x>
@@ -159,55 +137,44 @@ drukuj()
   <element>
     <id>Relation</id>
     <coordinates>
-      <x>203</x>
-      <y>259</y>
-      <w>119</w>
+      <x>196</x>
+      <y>266</y>
+      <w>126</w>
       <h>28</h>
     </coordinates>
     <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>150.0;20.0;10.0;10.0</additional_attributes>
+    <additional_attributes>160.0;10.0;10.0;20.0</additional_attributes>
   </element>
   <element>
-    <id>Relation</id>
+    <id>UMLClass</id>
     <coordinates>
-      <x>133</x>
-      <y>287</y>
-      <w>21</w>
-      <h>21</h>
+      <x>287</x>
+      <y>105</y>
+      <w>112</w>
+      <h>70</h>
     </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;10.0</additional_attributes>
+    <panel_attributes>wypozczenia
+--
+- status
+
+
+</panel_attributes>
+    <additional_attributes/>
   </element>
   <element>
-    <id>Relation</id>
+    <id>UMLClass</id>
     <coordinates>
-      <x>133</x>
-      <y>287</y>
-      <w>21</w>
-      <h>28</h>
+      <x>70</x>
+      <y>245</y>
+      <w>133</w>
+      <h>70</h>
     </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLUseCase</id>
-    <coordinates>
-      <x>112</x>
-      <y>91</y>
-      <w>175</w>
-      <h>112</h>
-    </coordinates>
-    <panel_attributes>TO_DO
-
-
-
-
-
-
-
-
-
-
+    <panel_attributes>Biblioteka
+--
+vector&lt;Pozycja*&gt; zasoby
+--
+dodaj()
+pokaz_zasoby()
 
 </panel_attributes>
     <additional_attributes/>
