@@ -48,7 +48,7 @@ public:
 		uzytkownicy.push_back(user);
 	}
 };
-class Wypozyczenie {
+/*class Wypozyczenie {
 	vector<Pozycja*> wypozyczenie;
 	Uzytkownik* wypozyczajacy=nullptr;
 public:
@@ -64,12 +64,18 @@ class Wypozyczenia {
 	void dodaj(Wypozyczenie* wypozyczneie, Uzytkownik* uzytkownik) {
 		historia_zamwowien.push_back(make_pair(wypozyczneie, uzytkownik));
 	}
+};*/
+struct Zasob {
+	Pozycja* pozycja_wsk;
+	int ilosc;
+	int dostepne;
+	Zasob(Pozycja* pozycja_wsk, int ilosc, int dostepne) :pozycja_wsk(pozycja_wsk), ilosc(ilosc), dostene(dostepne) {}
 };
 class Biblioteka {
-	vector<pair<Pozycja*, int>> zasoby;
+	vector<Zasob> zasoby;
 public:
-	void dodaj(Pozycja* pozycja, int ilosc) {
-		zasoby.push_back(make_pair(pozycja, ilosc)); 
+	void dodaj(Zasob zasob) {
+		zasoby.push_back(zasob); 
 	}
 	void pokaz_zasoby() {
 		int id = 1;
@@ -98,6 +104,6 @@ int main() {
 
 	publiczna.pokaz_zasoby();
 	//publiczna.wypozyczenie(publiczna.);
-
+	
 	return 0;
 } 
