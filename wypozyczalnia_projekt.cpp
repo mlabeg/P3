@@ -68,24 +68,33 @@ class Wypozyczenia {
 class Biblioteka {
 	vector<pair<Pozycja*, int>> zasoby;
 public:
-	Pozycja* dodaj(Pozycja* pozycja) {
-		zasoby.push_back(pozycja); 
+	void dodaj(Pozycja* pozycja, int ilosc) {
+		zasoby.push_back(make_pair(pozycja, ilosc)); 
 	}
 	void pokaz_zasoby() {
 		int id = 1;
-		for (auto &p:zasoby) {
-			cout << id << p;
+		for (auto p:zasoby) {
+			cout << id++<<". " << p.first->opis()<<", "<< p.second<<" sztuk" << endl;
 		}
 	}
+void wypozyczenie(Wypozyczenie* wypozyczenie) {
+	
+	
+
 };
 
 int main() {
 	Biblioteka publiczna;
-	publiczna.dodaj(new audiobook(2, "opowiadania"));
-	publiczna.dodaj(new ksiazka(3, "Huxley", "DP"));
-	publiczna.dodaj(new film(4, "Tarantino", "PRwH"));
-	audiobook adbk(1, "basnie");
-	adbk.opis();
+	publiczna.dodaj(new audiobook(2, "opowiadania"),5);
+	publiczna.dodaj(new audiobook(5, "bajki"),5);
+	publiczna.dodaj(new ksiazka(3, "Huxley", "DP"),5);
+	publiczna.dodaj(new film(4, "Tarantino", "PRwH"),5);
+
+	//audiobook adbk(1, "basnie");
+	//adbk.opis();
+
+	Uzytkownicy users;
+	users.dodaj(new Uzytkownik(1, "Jan", "Nowak"));
 
 	publiczna.pokaz_zasoby();
 	//publiczna.wypozyczenie(publiczna.);
