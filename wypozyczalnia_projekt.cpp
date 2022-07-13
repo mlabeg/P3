@@ -3,8 +3,6 @@
 #include<vector>
 using namespace std;
 
-//stworzyæ kontener vector przechowuj¹cy zamówienia 
-
 class Pozycja {
 public:
 	virtual string opis() = 0;
@@ -63,27 +61,22 @@ public:
 			p->dane();
 		}
 	}
+	Uzytkownik* wsk_user(int lp) {
+		return uzytkownicy.at(lp);
+		/*for (auto p : uzytkownicy) {
+			return p;
+		}*/
+	}
+	string pokaz_uzytkownikow() {
+		int lp = 1;
+		for (auto p : uzytkownicy) {
+			return "\n"+to_string(lp) + ". " + p->dane();
+			lp++;
+		}
+	}
 
 };
-/*class Wypozyczenie {
-	vector<Pozycja*> wypozyczenie;
-	Uzytkownik* wypozyczajacy=nullptr;
-public:
-	void dodaj(Pozycja* pozycja) {
-		wypozyczenie.push_back(pozycja);
-	}
-	void kto_wypozycza(Uzytkownik USER) {
-		wypozyczajacy = &USER;
-	}
-};
-class Wypozyczenia {
-	vector < pair<Wypozyczenie*, Uzytkownik*>> historia_zamwowien;
-	void dodaj(Wypozyczenie* wypozyczneie, Uzytkownik* uzytkownik) {
-		historia_zamwowien.push_back(make_pair(wypozyczneie, uzytkownik));
-	}
-};*/
 class Zasob {
-	//Zasob(){}
 public:
 	Pozycja* pozycja_wsk;
 	int ilosc;
@@ -102,13 +95,15 @@ public:
 		for (auto p : zasoby) {
 			cout << id++ << ". " << p.pozycja_wsk->opis() << ", wszystkich: " << p.ilosc << " sztuk" << ", dostepne: " << p.dostepne << endl;
 		}
+		cout << endl;
 	}
 	void wypozyczenie(int poz, Uzytkownik user) {
-		if (poz < zasoby.size()) {
+		if (poz <= zasoby.size()) {
+			poz--;
 			for (auto p : zasoby) {
 				if (p.pozycja_wsk == zasoby.at(poz).pozycja_wsk) {
 					if (p.dostepne > 0) {
-						p.dostepne--;
+						p.dostepne=p.dostepne-1;
 						user.dodaj_zamowienie(p.pozycja_wsk);
 						wypozyczenia.push_back(make_pair(p.pozycja_wsk, &user));
 					}
@@ -142,8 +137,8 @@ int main() {
 		Uzytkownicy lista_uzytkownikow;
 
 		lista_uzytkownikow.dodaj(new Uzytkownik(1, "Jan", "Kowalski"));
-		lista_uzytkownikow.dodaj(new Uzytkownik(1, "Jan", "Nowak"));
-		lista_uzytkownikow.dodaj(new Uzytkownik(2, "Karol", "Nowak"));
+		lista_uzytkownikow.dodaj(new Uzytkownik(2, "Tomasz", "Nowak"));
+		lista_uzytkownikow.dodaj(new Uzytkownik(3, "Karol", "Nowak"));
 		//Zasob pozycja_w_bibliotece(new audiobook("kjdskjda"), 7, 7);
 	//	publiczna.dodaj(pozycja_w_bibliotece);
 		publiczna.dodaj(new Zasob(new audiobook("Zly"), 5, 5));
@@ -152,7 +147,19 @@ int main() {
 		publiczna.dodaj(new Zasob(new film("Tarantino", "PRwH"), 5,5));
 
 		publiczna.pokaz_zasoby();
+
+		//dodanie zamówienia
+		lista_uzytkownikow.pokaz_uzytkownikow();
+		Uzytkownik* tmp_user = lista_uzytkownikow.wsk_user(1);
+		publiczna.wypozyczenie(4,*tmp_user);
 		
+		publiczna.pokaz_zasoby();
+	//	publiczna.pokaz_aktualne_wypozyczenia();
+
+
 
 		return 0;
 	}
+
+//zle odejmuje ilosc dostepnych sztuk pozycji - w void wypozyczenie() odejmuje, ale przy wypisywaniu  wszystkich nnie uwzglednia
+// wyrzuca blad kernela przy pobieraniu danych uzytkownika przez fukcje publiczna.poaz_aktualne_wypozyczenia();
