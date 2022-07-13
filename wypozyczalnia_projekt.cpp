@@ -11,42 +11,59 @@ public:
 	virtual ~Pozycja(){}
 };
 class audiobook :public Pozycja {
-	int id;
+	//int id;
 	string tytul;
 public:
 	string opis() { return "Audiobook '" + tytul+"'"; }
-	audiobook(int id, string tytul) :id(id), tytul(tytul){}
+	audiobook(string tytul) : tytul(tytul){}
 };
 class ksiazka :public Pozycja {
-	int id;
+	//int id;
 	string autor;
 	string tytul;
 public:
 	string opis() { return "Ksiazka '" + tytul + "', autor " + autor; }
-	ksiazka(int id, string autor, string tytul) :id(id), autor(autor),tytul(tytul) {}
+	ksiazka(string autor, string tytul) :autor(autor),tytul(tytul) {}
 };
 class film :public Pozycja {
-	int id;
+//	int id;
 	string rezyser;
 	string tytul;
 public:
 	string opis() { return "Film '" + tytul + "', rezyser: " +rezyser; }
-	film(int id, string rezyser, string tytul):id(id),rezyser(rezyser),tytul(tytul) {}
+	film(string rezyser, string tytul):rezyser(rezyser),tytul(tytul) {}
 };
 class Uzytkownik {
+	vector<Pozycja*> historia_zamowien;
 	int id;
 	string imie;
 	string nazwisko;
 public:
 	string dane() { return "Imie: " + imie + " nazwisko: " + nazwisko; }
+	void dodaj_zamowienie(Pozycja* pozycja) {
+		historia_zamowien.push_back(pozycja);
+	}
+	void pokaz_historie_zamowien() {
+		int lp = 1;
+		for (auto p : historia_zamowien) {
+			cout << lp++ << p->opis();
+		}
+	}
 	Uzytkownik(int id, string imie, string nazwisko):id(id), imie(imie),nazwisko(nazwisko){}
 };
 class Uzytkownicy {
-	vector<Uzytkownik*> uzytkownicy;
+	vector<Uzytkownik*> uzytkownicy; 
 public:
+
 	void dodaj(Uzytkownik* user) {
 		uzytkownicy.push_back(user);
 	}
+	Uzytkownik* dane() {
+		for (auto p : uzytkownicy) {
+			p->dane();
+		}
+	}
+
 };
 /*class Wypozyczenie {
 	vector<Pozycja*> wypozyczenie;
@@ -65,45 +82,77 @@ class Wypozyczenia {
 		historia_zamwowien.push_back(make_pair(wypozyczneie, uzytkownik));
 	}
 };*/
-struct Zasob {
+class Zasob {
+	//Zasob(){}
+public:
 	Pozycja* pozycja_wsk;
 	int ilosc;
 	int dostepne;
-	Zasob(Pozycja* pozycja_wsk, int ilosc, int dostepne) :pozycja_wsk(pozycja_wsk), ilosc(ilosc), dostene(dostepne) {}
+	Zasob(Pozycja* pozycja_wsk, int ilosc, int dostepne) :pozycja_wsk(pozycja_wsk), ilosc(ilosc), dostepne(dostepne) {}
 };
 class Biblioteka {
 	vector<Zasob> zasoby;
+	vector<pair<Pozycja*, Uzytkownik*>> wypozyczenia;
 public:
-	void dodaj(Zasob zasob) {
-		zasoby.push_back(zasob); 
+	void dodaj(Zasob* zasob) {
+		zasoby.push_back(*zasob);
 	}
 	void pokaz_zasoby() {
 		int id = 1;
-		for (auto p:zasoby) {
-			cout << id++<<". " << p.first->opis()<<", "<< p.second<<" sztuk" << endl;
+		for (auto p : zasoby) {
+			cout << id++ << ". " << p.pozycja_wsk->opis() << ", wszystkich: " << p.ilosc << " sztuk" << ", dostepne: " << p.dostepne << endl;
 		}
 	}
-void wypozyczenie(Wypozyczenie* wypozyczenie) {
-	
-	
+	void wypozyczenie(int poz, Uzytkownik user) {
+		if (poz < zasoby.size()) {
+			for (auto p : zasoby) {
+				if (p.pozycja_wsk == zasoby.at(poz).pozycja_wsk) {
+					if (p.dostepne > 0) {
+						p.dostepne--;
+						user.dodaj_zamowienie(p.pozycja_wsk);
+						wypozyczenia.push_back(make_pair(p.pozycja_wsk, &user));
+					}
+					else
+					{
+						cout << "Pozycja niedostepna." << endl;
+					}
+				}
+			}
+		}
+		else {
+			cout << "Brak pozycji." << endl;
+		}
+	}
+
+	void pokaz_aktualne_wypozyczenia() {
+		if (wypozyczenia.size() != 0) {
+			int lp = 1;
+			for (auto p : wypozyczenia) {
+				cout << lp++ << ". " << p.first << ", wypozyczone dla " << p.second->dane() << endl;
+			}
+		}
+	}
+
+
 
 };
 
 int main() {
-	Biblioteka publiczna;
-	publiczna.dodaj(new audiobook(2, "opowiadania"),5);
-	publiczna.dodaj(new audiobook(5, "bajki"),5);
-	publiczna.dodaj(new ksiazka(3, "Huxley", "DP"),5);
-	publiczna.dodaj(new film(4, "Tarantino", "PRwH"),5);
+		Biblioteka publiczna;
+		Uzytkownicy lista_uzytkownikow;
 
-	//audiobook adbk(1, "basnie");
-	//adbk.opis();
+		lista_uzytkownikow.dodaj(new Uzytkownik(1, "Jan", "Kowalski"));
+		lista_uzytkownikow.dodaj(new Uzytkownik(1, "Jan", "Nowak"));
+		lista_uzytkownikow.dodaj(new Uzytkownik(2, "Karol", "Nowak"));
+		//Zasob pozycja_w_bibliotece(new audiobook("kjdskjda"), 7, 7);
+	//	publiczna.dodaj(pozycja_w_bibliotece);
+		publiczna.dodaj(new Zasob(new audiobook("Zly"), 5, 5));
+		publiczna.dodaj(new Zasob(new audiobook("bajki"), 5,5));
+		publiczna.dodaj(new Zasob (new ksiazka("Huxley", "DP"), 5,5));
+		publiczna.dodaj(new Zasob(new film("Tarantino", "PRwH"), 5,5));
 
-	Uzytkownicy users;
-	users.dodaj(new Uzytkownik(1, "Jan", "Nowak"));
+		publiczna.pokaz_zasoby();
+		
 
-	publiczna.pokaz_zasoby();
-	//publiczna.wypozyczenie(publiczna.);
-	
-	return 0;
-} 
+		return 0;
+	}
