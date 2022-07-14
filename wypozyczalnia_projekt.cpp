@@ -37,7 +37,7 @@ class Uzytkownik {
 	string imie;
 	string nazwisko;
 public:
-	string dane() { return "Imie: " + imie + " nazwisko: " + nazwisko; }
+	string dane() { return imie +" " + nazwisko; }
 	void dodaj_zamowienie(Pozycja* pozycja) {
 		historia_zamowien.push_back(pozycja);
 	}
@@ -56,23 +56,20 @@ public:
 	void dodaj(Uzytkownik* user) {
 		uzytkownicy.push_back(user);
 	}
-	Uzytkownik* dane() {
+	void dane() {
 		for (auto p : uzytkownicy) {
 			p->dane();
 		}
 	}
 	Uzytkownik* wsk_user(int lp) {
-		return uzytkownicy.at(lp);
-		/*for (auto p : uzytkownicy) {
-			return p;
-		}*/
+		return uzytkownicy.at(lp-1);
 	}
-	string pokaz_uzytkownikow() {
+	void pokaz_uzytkownikow() {
 		int lp = 1;
 		for (auto p : uzytkownicy) {
-			return "\n"+to_string(lp) + ". " + p->dane();
-			lp++;
+			cout << lp++ << ". " << p->dane() << endl;
 		}
+		cout << endl;
 	}
 
 };
@@ -82,6 +79,13 @@ public:
 	int ilosc;
 	int dostepne;
 	Zasob(Pozycja* pozycja_wsk, int ilosc, int dostepne) :pozycja_wsk(pozycja_wsk), ilosc(ilosc), dostepne(dostepne) {}
+
+	void wypozyczenie() {
+		dostepne--;
+	}
+	void zwrot() {
+		dostepne++; 
+	}
 };
 class Biblioteka {
 	vector<Zasob> zasoby;
@@ -103,7 +107,7 @@ public:
 			for (auto p : zasoby) {
 				if (p.pozycja_wsk == zasoby.at(poz).pozycja_wsk) {
 					if (p.dostepne > 0) {
-						p.dostepne=p.dostepne-1;
+						p.wypozyczenie();
 						user.dodaj_zamowienie(p.pozycja_wsk);
 						wypozyczenia.push_back(make_pair(p.pozycja_wsk, &user));
 					}
@@ -123,7 +127,7 @@ public:
 		if (wypozyczenia.size() != 0) {
 			int lp = 1;
 			for (auto p : wypozyczenia) {
-				cout << lp++ << ". " << p.first << ", wypozyczone dla " << p.second->dane() << endl;
+				cout << lp++ << ". " << p.first->opis() << ", wypozyczone dla " << p.second->dane() << endl;
 			}
 		}
 	}
@@ -150,11 +154,12 @@ int main() {
 
 		//dodanie zamówienia
 		lista_uzytkownikow.pokaz_uzytkownikow();
+		//lista_uzytkownikow.dane();
 		Uzytkownik* tmp_user = lista_uzytkownikow.wsk_user(1);
 		publiczna.wypozyczenie(4,*tmp_user);
 		
 		publiczna.pokaz_zasoby();
-	//	publiczna.pokaz_aktualne_wypozyczenia();
+		publiczna.pokaz_aktualne_wypozyczenia();
 
 
 
