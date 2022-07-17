@@ -2,7 +2,7 @@
 #include<string>
 #include<vector>
 using namespace std;
-
+	
 class Pozycja {
 public:
 	virtual string opis() = 0;
@@ -35,8 +35,9 @@ class Uzytkownik {
 	vector<Pozycja*> historia_zamowien;
 	int id;
 	string imie;
-	string nazwisko;
+	string nazwisko;	
 public:
+	Uzytkownik(int id, string imie, string nazwisko):id(id), imie(imie),nazwisko(nazwisko){}
 	string dane() { return imie +" " + nazwisko; }
 	void dodaj_zamowienie(Pozycja* pozycja) {
 		historia_zamowien.push_back(pozycja);
@@ -44,10 +45,10 @@ public:
 	void pokaz_historie_zamowien() {
 		int lp = 1;
 		for (auto p : historia_zamowien) {
-			cout << lp++ << p->opis();
+			cout << lp++<< ". " << p->opis();
 		}
 	}
-	Uzytkownik(int id, string imie, string nazwisko):id(id), imie(imie),nazwisko(nazwisko){}
+	
 };
 class Uzytkownicy {
 	vector<Uzytkownik*> uzytkownicy; 
@@ -89,7 +90,7 @@ public:
 };
 class Biblioteka {
 	vector<Zasob> zasoby;
-	vector<pair<Pozycja*, Uzytkownik*>> wypozyczenia;
+	vector<pair<Pozycja*, Uzytkownik*>> aktualne_wypozyczenia;
 public:
 	void dodaj(Zasob* zasob) {
 		zasoby.push_back(*zasob);
@@ -101,15 +102,15 @@ public:
 		}
 		cout << endl;
 	}
-	void wypozyczenie(int poz, Uzytkownik user) {
+	void wypozyczenie(int poz, Uzytkownik* user) {
 		if (poz <= zasoby.size()) {
 			poz--;
-			for (auto p : zasoby) {
+			for (auto  p : zasoby) {
 				if (p.pozycja_wsk == zasoby.at(poz).pozycja_wsk) {
 					if (p.dostepne > 0) {
-						p.wypozyczenie();
-						user.dodaj_zamowienie(p.pozycja_wsk);
-						wypozyczenia.push_back(make_pair(p.pozycja_wsk, &user));
+						zasoby.at(poz).wypozyczenie();
+						user->dodaj_zamowienie(zasoby.at(poz).pozycja_wsk);
+						aktualne_wypozyczenia.push_back(make_pair(p.pozycja_wsk, user));
 					}
 					else
 					{
@@ -122,12 +123,26 @@ public:
 			cout << "Brak pozycji." << endl;
 		}
 	}
+	void zwrot(int poz) {
+		if (poz <= aktualne_wypozyczenia.size()) {
+			poz--;
+			for (auto p : aktualne_wypozyczenia) {
+zasoby.at(poz).zwrot();
+//aktualne_wypozyczenia.erase()
+			}
+			
+		}
+		else {
+			cout << "Brak pozycji do zwrotu" << endl;
+		}
+	}
 
 	void pokaz_aktualne_wypozyczenia() {
-		if (wypozyczenia.size() != 0) {
+		if (aktualne_wypozyczenia.size() > 0) {
 			int lp = 1;
-			for (auto p : wypozyczenia) {
-				cout << lp++ << ". " << p.first->opis() << ", wypozyczone dla " << p.second->dane() << endl;
+			for (auto p : aktualne_wypozyczenia) {
+				cout << lp++ << ". " << p.first->opis() << endl;
+				cout<<	", wypozyczone dla " << p.second->dane() << endl;
 			}
 		}
 	}
@@ -154,17 +169,18 @@ int main() {
 
 		//dodanie zamówienia
 		lista_uzytkownikow.pokaz_uzytkownikow();
-		//lista_uzytkownikow.dane();
 		Uzytkownik* tmp_user = lista_uzytkownikow.wsk_user(1);
-		publiczna.wypozyczenie(4,*tmp_user);
+		publiczna.wypozyczenie(4,tmp_user);
 		
 		publiczna.pokaz_zasoby();
 		publiczna.pokaz_aktualne_wypozyczenia();
+		tmp_user->pokaz_historie_zamowien();
+
+
 
 
 
 		return 0;
 	}
 
-//zle odejmuje ilosc dostepnych sztuk pozycji - w void wypozyczenie() odejmuje, ale przy wypisywaniu  wszystkich nnie uwzglednia
-// wyrzuca blad kernela przy pobieraniu danych uzytkownika przez fukcje publiczna.poaz_aktualne_wypozyczenia();
+//usuniecie pozycji z aktualnych wypozyczeñ
