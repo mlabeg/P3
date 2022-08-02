@@ -9,14 +9,13 @@ public:
 	virtual ~Pozycja(){}
 };
 class audiobook :public Pozycja {
-	//int id;
+	string autor;
 	string tytul;
 public:
 	string opis() { return "Audiobook '" + tytul+"'"; }
 	audiobook(string tytul) : tytul(tytul){}
 };
 class ksiazka :public Pozycja {
-	//int id;
 	string autor;
 	string tytul;
 public:
@@ -24,7 +23,6 @@ public:
 	ksiazka(string autor, string tytul) :autor(autor),tytul(tytul) {}
 };
 class film :public Pozycja {
-//	int id;
 	string rezyser;
 	string tytul;
 public:
@@ -44,6 +42,7 @@ public:
 	}
 	void pokaz_historie_zamowien() {
 		int lp = 1;
+		cout << "Historia zamowien  dla " +this-> imie+ " "+ this->nazwisko+": " << endl;
 		for (auto p : historia_zamowien) {
 			cout << lp++<< ". " << p->opis();
 		}
@@ -126,11 +125,12 @@ public:
 	void zwrot(int poz) {
 		if (poz <= aktualne_wypozyczenia.size()) {
 			poz--;
-			for (auto p : aktualne_wypozyczenia) {
-zasoby.at(poz).zwrot();
-//aktualne_wypozyczenia.erase()
+			for (auto p : zasoby) {
+				if (aktualne_wypozyczenia.at(poz).first == p.pozycja_wsk) {
+					p.zwrot();
+				}
 			}
-			
+			aktualne_wypozyczenia.erase(aktualne_wypozyczenia.begin()+poz);
 		}
 		else {
 			cout << "Brak pozycji do zwrotu" << endl;
@@ -144,6 +144,9 @@ zasoby.at(poz).zwrot();
 				cout << lp++ << ". " << p.first->opis() << endl;
 				cout<<	", wypozyczone dla " << p.second->dane() << endl;
 			}
+			cout << endl;
+		}else{
+			cout << "Brak aktualnych wypozyczen." << endl;
 		}
 	}
 
@@ -154,6 +157,8 @@ zasoby.at(poz).zwrot();
 int main() {
 		Biblioteka publiczna;
 		Uzytkownicy lista_uzytkownikow;
+		Uzytkownik* tmp_user = nullptr;
+		int zw;
 
 		lista_uzytkownikow.dodaj(new Uzytkownik(1, "Jan", "Kowalski"));
 		lista_uzytkownikow.dodaj(new Uzytkownik(2, "Tomasz", "Nowak"));
@@ -169,18 +174,25 @@ int main() {
 
 		//dodanie zamówienia
 		lista_uzytkownikow.pokaz_uzytkownikow();
-		Uzytkownik* tmp_user = lista_uzytkownikow.wsk_user(1);
+		tmp_user = lista_uzytkownikow.wsk_user(1);
 		publiczna.wypozyczenie(4,tmp_user);
+		tmp_user = lista_uzytkownikow.wsk_user(2);
+		publiczna.wypozyczenie(4, tmp_user);
 		
 		publiczna.pokaz_zasoby();
 		publiczna.pokaz_aktualne_wypozyczenia();
-		tmp_user->pokaz_historie_zamowien();
+		//tmp_user->pokaz_historie_zamowien();
 
-
-
+		//zwrot zamowienia
+		cout << "Wybierz pozycje do zwrotu: ";
+		cin >> zw;
+		publiczna.zwrot(zw);
+		publiczna.pokaz_zasoby();
+		publiczna.pokaz_aktualne_wypozyczenia();
 
 
 		return 0;
 	}
 
-//usuniecie pozycji z aktualnych wypozyczeñ
+
+//nie dodaje zwracanych pozycji (zmienna "dostêpne") w Biblioteka.zwrot()

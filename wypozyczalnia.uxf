@@ -1,20 +1,22 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram program="umlet" version="15.0.0">
-  <zoom_level>7</zoom_level>
+  <zoom_level>9</zoom_level>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>140</x>
-      <y>112</y>
-      <w>112</w>
-      <h>70</h>
+      <x>27</x>
+      <y>486</y>
+      <w>207</w>
+      <h>108</h>
     </coordinates>
-    <panel_attributes>uzytkownik
+    <panel_attributes>Uzytkownicy
 --
-- id
-- imie
-- nazwisko
-
+-uzytkownicy: vector&lt;Uzytkownik*&gt;
+--
++dodaj()
++dane()
++wsk_user()
++pokaz_uzytkownikow()
 
 </panel_attributes>
     <additional_attributes/>
@@ -22,141 +24,62 @@
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>308</x>
-      <y>224</y>
-      <w>91</w>
-      <h>63</h>
+      <x>540</x>
+      <y>459</y>
+      <w>117</w>
+      <h>81</h>
     </coordinates>
     <panel_attributes>Pozycja
 --
-opis()</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>217</x>
-      <y>336</y>
-      <w>70</w>
-      <h>84</h>
-    </coordinates>
-    <panel_attributes>audiobook
---
-id
-autor 
-//tytul
---
-opis()
-audiobook()
-
-</panel_attributes>
+{virtual} opis()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
       <x>441</x>
-      <y>322</y>
-      <w>70</w>
-      <h>84</h>
+      <y>621</y>
+      <w>90</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>audiobook
+--
+-autor: string
+-tytul: string
+--
++opis()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>675</x>
+      <y>621</y>
+      <w>99</w>
+      <h>108</h>
     </coordinates>
     <panel_attributes>film
 --
-id
-rezyser
-tytul
+-rezyser: string
+-tytul: string
 --
-opis()
-film()</panel_attributes>
++opis()</panel_attributes>
     <additional_attributes/>
   </element>
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>308</x>
-      <y>385</y>
-      <w>119</w>
-      <h>98</h>
+      <x>558</x>
+      <y>621</y>
+      <w>99</w>
+      <h>108</h>
     </coordinates>
     <panel_attributes>ksiazka
 --
-id
-autor
-tytul
-//ilosc stron
+-autor: string
+-tytul: string
 --
-opis()
-ksiazka()
-</panel_attributes>
-    <additional_attributes/>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>336</x>
-      <y>280</y>
-      <w>35</w>
-      <h>119</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;30.0;150.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>350</x>
-      <y>280</y>
-      <w>133</w>
-      <h>56</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>10.0;10.0;170.0;60.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>238</x>
-      <y>280</y>
-      <w>105</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;&lt;&lt;-</panel_attributes>
-    <additional_attributes>130.0;10.0;10.0;80.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>140</x>
-      <y>175</y>
-      <w>63</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>70.0;10.0;10.0;80.0</additional_attributes>
-  </element>
-  <element>
-    <id>Relation</id>
-    <coordinates>
-      <x>196</x>
-      <y>266</y>
-      <w>126</w>
-      <h>28</h>
-    </coordinates>
-    <panel_attributes>lt=&lt;-</panel_attributes>
-    <additional_attributes>160.0;10.0;10.0;20.0</additional_attributes>
-  </element>
-  <element>
-    <id>UMLClass</id>
-    <coordinates>
-      <x>287</x>
-      <y>105</y>
-      <w>112</w>
-      <h>70</h>
-    </coordinates>
-    <panel_attributes>wypozczenia
---
-- status
-
++opis()
 
 </panel_attributes>
     <additional_attributes/>
@@ -164,19 +87,152 @@ ksiazka()
   <element>
     <id>UMLClass</id>
     <coordinates>
-      <x>70</x>
-      <y>245</y>
-      <w>133</w>
-      <h>70</h>
+      <x>207</x>
+      <y>99</y>
+      <w>324</w>
+      <h>135</h>
     </coordinates>
     <panel_attributes>Biblioteka
 --
-vector&lt;Pozycja*&gt; zasoby
+-zasoby: vector&lt;Zasob&gt;
+-aktualne_wypozyczenia: vector&lt;Pozycja*, Uzytkownik*&gt;
 --
-dodaj()
-pokaz_zasoby()
++dodaj()
++pokaz_zasoby()
++wypozyczenie()
++zwrot()
++pokaz_aktualne_wypozyczenia()</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>486</x>
+      <y>288</y>
+      <w>171</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>Zasob
+--
+-pozycja_wsk: Pozycja*
+-ilosc: int
+-dostepne: int
+--
++wypozyczenie()
++zwrot()
 
 </panel_attributes>
     <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>18</x>
+      <y>288</y>
+      <w>225</w>
+      <h>135</h>
+    </coordinates>
+    <panel_attributes>Uzytkownik
+--
+-historia_zamowien: vector&lt;Pozycja*&gt;
+-id: int
+-imie: string
+-nazwisko: string
+--
++dane()
++dodaj_zamowienie()
++pokaz_historie_zamowien();
+
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>477</x>
+      <y>531</y>
+      <w>108</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>100.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>585</x>
+      <y>531</y>
+      <w>27</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>603</x>
+      <y>531</y>
+      <w>117</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;110.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>234</x>
+      <y>324</y>
+      <w>324</w>
+      <h>189</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;340.0;190.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>558</x>
+      <y>387</y>
+      <w>54</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;40.0;80.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>522</x>
+      <y>180</y>
+      <w>63</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;50.0;10.0;50.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>108</x>
+      <y>414</y>
+      <w>27</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>126</x>
+      <y>180</y>
+      <w>99</w>
+      <h>126</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>90.0;10.0;10.0;10.0;10.0;120.0</additional_attributes>
   </element>
 </diagram>
