@@ -1,5 +1,6 @@
 #include<iostream>
 #include<string>
+#include<fstream>
 #include<vector>
 using namespace std;
 	
@@ -29,7 +30,10 @@ public:
 	string opis() { return "Film '" + tytul + "', rezyser: " +rezyser; }
 	film(string rezyser, string tytul):rezyser(rezyser),tytul(tytul) {}
 };
+
 class Uzytkownik {
+	friend istream& operator>>(istream& in, Uzytkownik& u);
+	friend ostream& operator<<(ostream& out, Uzytkownik& u);
 	vector<Pozycja*> historia_zamowien;
 	int id;
 	string imie;
@@ -47,8 +51,25 @@ public:
 			cout << lp++<< ". " << p->opis();
 		}
 	}
-	
+	int daj_ID(){
+		return id;
+	}
+	string daj_imie() {
+		return imie;
+	}
+	string daj_nazwisko() {
+		return nazwisko;
+	}
 };
+istream& operator>>(istream& in, Uzytkownik& u) {
+	in >> u.id >> u.imie >> u.nazwisko;
+	return in;
+}
+ostream& operator>>(ostream& out, Uzytkownik& u) {
+	out << u.daj_ID() << " " << u.daj_imie() << " " << u.daj_nazwisko();
+	return out;
+}
+
 class Uzytkownicy {
 	vector<Uzytkownik*> uzytkownicy; 
 public:
@@ -70,6 +91,12 @@ public:
 			cout << lp++ << ". " << p->dane() << endl;
 		}
 		cout << endl;
+	}
+	int last_lp() {
+		if (uzytkownicy.size() == 0) {
+			return 0;
+		}else
+		return uzytkownicy.back()->daj_ID();
 	}
 
 };
@@ -107,7 +134,7 @@ public:
 			for (auto  p : zasoby) {
 				if (p.pozycja_wsk == zasoby.at(poz).pozycja_wsk) {
 					if (p.dostepne > 0) {
-						zasoby.at(poz).wypozyczenie();
+						zasoby.at(poz).wypozyczenie();		//to samo co w 131 - odwo³ujê siê do zasobów nie przez "p."
 						user->dodaj_zamowienie(zasoby.at(poz).pozycja_wsk);
 						aktualne_wypozyczenia.push_back(make_pair(p.pozycja_wsk, user));
 					}
@@ -125,10 +152,13 @@ public:
 	void zwrot(int poz) {
 		if (poz <= aktualne_wypozyczenia.size()) {
 			poz--;
+			int n = 0;
 			for (auto p : zasoby) {
 				if (aktualne_wypozyczenia.at(poz).first == p.pozycja_wsk) {
-					p.zwrot();
+					//p.zwrot();		- wywo³ywanie funkcji przez wska¿nik p nie pozwala na zmianê wartoœci wewn¹trz innej klasy - to samo co w 110
+					zasoby.at(n).zwrot();
 				}
+				n++;
 			}
 			aktualne_wypozyczenia.erase(aktualne_wypozyczenia.begin()+poz);
 		}
@@ -149,20 +179,45 @@ public:
 			cout << "Brak aktualnych wypozyczen." << endl;
 		}
 	}
-
-
-
 };
 
 int main() {
 		Biblioteka publiczna;
 		Uzytkownicy lista_uzytkownikow;
+		fstream user;
+		user.open("lista_uzytkownikow.txt", ios::in | ios::out);
+		if (user.good() == true) {
+			cout << "Uzyskano dostep do pliku" << endl;
+		}
+		else{
+			cout << "Nie uzyskano dostepu do pliku" << endl;
+		}
 		Uzytkownik* tmp_user = nullptr;
 		int zw;
+		string name;
+		string surname;
+		int loop = 1;
+		char d;
+
 
 		lista_uzytkownikow.dodaj(new Uzytkownik(1, "Jan", "Kowalski"));
 		lista_uzytkownikow.dodaj(new Uzytkownik(2, "Tomasz", "Nowak"));
 		lista_uzytkownikow.dodaj(new Uzytkownik(3, "Karol", "Nowak"));
+		while (loop) {
+			cout << "Podaj imie: ";
+			cin >> name;
+			cout << "Podaj nazwisko: ";
+			cin >> surname;
+			lista_uzytkownikow.dodaj(new Uzytkownik(lista_uzytkownikow.last_lp(), name, surname));
+			cout << "Czy dodac nastpnego? ";
+				cin >> d;
+				if (d == 't' || d == 'T') {
+				}
+				else {
+					loop = 0;
+				}
+		}
+
 		//Zasob pozycja_w_bibliotece(new audiobook("kjdskjda"), 7, 7);
 	//	publiczna.dodaj(pozycja_w_bibliotece);
 		publiczna.dodaj(new Zasob(new audiobook("Zly"), 5, 5));
@@ -193,6 +248,3 @@ int main() {
 
 		return 0;
 	}
-
-
-//nie dodaje zwracanych pozycji (zmienna "dostêpne") w Biblioteka.zwrot()
