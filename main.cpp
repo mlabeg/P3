@@ -4,11 +4,7 @@
 #include<vector>
 using namespace std;
 
-//#include "C:\Users\Mateusz\source\repos\Project3\Pozycja.cpp"
-//#include "C:\Users\Mateusz\source\repos\Project3\Uzytkownicy.cpp"
-#include "C:\Users\Mateusz\source\repos\Project3\Biblioteka.cpp"
-
-
+#include "Biblioteka.cpp"
 
 
 int main() {
@@ -47,16 +43,14 @@ int main() {
 				}
 		}
 
-		//Zasob pozycja_w_bibliotece(new audiobook("kjdskjda"), 7, 7);
-	//	publiczna.dodaj(pozycja_w_bibliotece);
-		publiczna.dodaj(new Zasob(new audiobook("Zly"), 5, 5));		//sprawdz czy jedno z tych "new" nie powinno byæ w klasie
+		publiczna.dodaj(new Zasob(new audiobook("Zly"), 5, 5));	
 		publiczna.dodaj(new Zasob(new audiobook("bajki"), 5,5));
 		publiczna.dodaj(new Zasob (new ksiazka("Huxley", "DP"), 5,5));
 		publiczna.dodaj(new Zasob(new film("Tarantino", "PRwH"), 5,5));
 
 		publiczna.pokaz_zasoby();
 
-		//dodanie zamówienia
+		//dodanie zamÃ³wienia
 		lista_uzytkownikow.pokaz_uzytkownikow();
 		tmp_user = lista_uzytkownikow.wsk_user(1);
 		publiczna.wypozyczenie(4,tmp_user);
